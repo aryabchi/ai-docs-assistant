@@ -155,7 +155,8 @@ venv.bak/
 /site
 
 # logs
-/logs
+logs/*
+!logs/.gitkeep
 
 # mypy
 .mypy_cache/
