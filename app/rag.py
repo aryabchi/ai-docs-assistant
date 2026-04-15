@@ -65,5 +65,32 @@ def initialize_rag_from_docs() -> None:
         logger.warning("В директории docs/ не найдено .md-файлов")
 
 
+def search_documentation(
+    query: str, k: int = 1, similarity_threshold: float = 0.62
+) -> str | None:
+    """Выполняет семантический поиск по документации API."""
+    try:
+        logger.info(f"Семантический поиск: {query!r}")
+        results = vector_store.similarity_search_with_score(
+            query, k=k, score_threshold=similarity_threshold
+        )
+
+        if results:
+            doc, score = results[0]
+            logger.info(
+                f'Найден релевантный документ ({doc.metadata["source"]}) (score={score:.3f}) для {query!r}'
+            )
+            return doc.page_content
+
+        logger.info(f"Релевантные документы не найдены для {query!r}")
+        return None
+
+    except Exception as exc:
+        logger.error(
+            f"Ошибка при выполнении RAG-поиска для {query!r}: {exc}", exc_info=True
+        )
+        return None
+
+
 if __name__ == "__main__":
     initialize_rag_from_docs()
