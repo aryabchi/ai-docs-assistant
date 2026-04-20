@@ -1,4 +1,6 @@
 from pathlib import Path
+import hashlib
+import uuid
 from qdrant_client import QdrantClient
 from langchain_ollama import OllamaEmbeddings
 from langchain_core.documents import Document
@@ -63,6 +65,36 @@ def initialize_rag_from_docs() -> None:
         logger.info(f"Загружено {len(documents)} документов в RAG-хранилище")
     else:
         logger.warning("В директории docs/ не найдено .md-файлов")
+
+
+def add_document_to_index(file_path: str) -> bool:
+    """
+    Инкрементально добавляет один документ в векторную БД.
+    Возвращает True при успехе.
+    """
+    try:
+        # 1. Читаем файл
+        content = Path(file_path).read_text(encoding="utf-8").strip()
+        if not content:
+            return False
+
+        # 2. Создаём Document с метаданными
+        doc = Document(page_content=content, metadata={"source": str(file_path)})
+
+        # 3. Генерируем детерминированный ID из пути (чтобы не дублировать)
+        hash_hex = hashlib.md5(str(file_path).encode()).hexdigest()
+        doc_id = str(uuid.UUID(hash_hex[:32]))
+
+        # 4. Добавляем в Qdrant через LangChain-обёртку
+        # Используем упреждающую проверку: если документ уже есть — обновляем
+        vector_store.add_documents([doc], ids=[doc_id])
+
+        logger.info(f"Документ добавлен в индекс: {file_path}")
+        return True
+
+    except Exception as exc:
+        logger.error(f"Ошибка при добавлении документа в индекс {file_path}: {exc}")
+        return False
 
 
 def search_documentation(

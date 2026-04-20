@@ -5,7 +5,11 @@ from concurrent.futures import ThreadPoolExecutor
 
 from app.logger import logger
 from app.schemas import SearchRequest, SearchResponse, GenerateRequest, GenerateResponse
-from app.rag import initialize_rag_from_docs, search_documentation
+from app.rag import (
+    initialize_rag_from_docs,
+    search_documentation,
+    add_document_to_index,
+)
 from app.agents import generate_and_validate_documentation
 from app.storage import save_document
 from app.health import check_all_services
@@ -71,15 +75,18 @@ def generate_docs(request: GenerateRequest):
         file_path = save_document(content, request.query)
 
         # 5. Обновить RAG
-        # TODO: не пересоздавать коллекцию, только добавить документ
-        initialize_rag_from_docs()
-
-        return GenerateResponse(
-            success=True,
-            message="Документ успешно создан и сохранён.",
-            content=content,
-            file_path=file_path,
-        )
+        if add_document_to_index(file_path):
+            return GenerateResponse(
+                success=True,
+                message="Документ успешно создан и сохранён.",
+                content=content,
+                file_path=file_path,
+            )
+        else:
+            return GenerateResponse(
+                success=False,
+                message="Ошибка добавления документа в индекс",
+            )
 
     except Exception as e:
         logger.error(f"Ошибка генерации документа: {e}", exc_info=True)
