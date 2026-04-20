@@ -19,7 +19,7 @@ AI agentic mini-project with RAG
 
 ## Swagger query samples
 
-**http://127.0.0.1:8080/generate**
+1. **http://127.0.0.1:8080/generate**
 
 ```
 {
@@ -37,7 +37,7 @@ Expected response
 }
 ```
 
-**http://127.0.0.1:8080/search**
+2. **http://127.0.0.1:8080/search**
 
 ```
 {
