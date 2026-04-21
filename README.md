@@ -26,7 +26,7 @@ AI agentic mini-project with RAG
 * GET /health
 
 ## Swagger query samples
-1. **http://127.0.0.1:8080/generate**
+* **http://127.0.0.1:8080/generate**
 
 ```
 {
@@ -44,7 +44,7 @@ Expected response
 }
 ```
 
-1. **http://127.0.0.1:8080/search**
+* **http://127.0.0.1:8080/search**
 
 ```
 {
@@ -61,7 +61,7 @@ Expected response
 }
 ```
 
-1. **http://127.0.0.1:8080/health**
+* **http://127.0.0.1:8080/health**
 
 Expected response
 
