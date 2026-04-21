@@ -1,9 +1,18 @@
 # ai-docs-assistant
 AI agentic mini-project with RAG
 
+## Features
+- two agents (generator and validator)
+- fine-tuned LoRA adapter
+- searches/updates RAG
+- health-check
+- pydantic validation
+- local logging
+- endpoints autotests
+- containerazed
+
 
 ## Stack
-
 - LLM: Mistral-7B-Instruct-v0.3 + LoRA adapter
 - Multi-agent: CrewAI
 - Vectore DB: Qdrant
@@ -12,13 +21,11 @@ AI agentic mini-project with RAG
 
 
 ## Endpoints
-
 * POST /generate
 * POST /search
-
+* GET /health
 
 ## Swagger query samples
-
 1. **http://127.0.0.1:8080/generate**
 
 ```
