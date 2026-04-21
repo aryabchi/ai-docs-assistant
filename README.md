@@ -4,7 +4,7 @@ AI agentic mini-project with RAG
 ## Features
 - two agents (generator and validator)
 - fine-tuned LoRA adapter
-- searches/updates RAG
+- RAG search/update
 - health-check
 - pydantic validation
 - local logging
@@ -44,7 +44,7 @@ Expected response
 }
 ```
 
-2. **http://127.0.0.1:8080/search**
+1. **http://127.0.0.1:8080/search**
 
 ```
 {
@@ -54,12 +54,24 @@ Expected response
 Expected response
 
 ```
-	
-Response body
-
 {
   "found": true,
   "content": "### DELETE /api/v1/users/{id}\n\n**Описание**: Удаляет пользователя по его идентификатору.\n\n**Параметры пути**:\n- `id` (integer): уникальный идентификатор пользователя\n\n**Ответ**:\n```json\n{\"message\": \"User deleted\"}\n```",
   "message": null
+}
+```
+
+1. **http://127.0.0.1:8080/health**
+Expected response
+
+```
+{
+  "status": "healthy",
+  "checks": {
+    "qdrant": true,
+    "ollama": true,
+    "docs": true,
+    "rag_canary": true
+  }
 }
 ```
