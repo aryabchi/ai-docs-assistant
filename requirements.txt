@@ -134,7 +134,6 @@ pyproject_hooks==1.2.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
 python-multipart==0.0.26
-pywin32==311
 PyYAML==6.0.3
 qdrant-client==1.17.1
 ragas==0.4.3
