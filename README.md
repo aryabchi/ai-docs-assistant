@@ -5,7 +5,7 @@ AI agentic mini-project with RAG
 - two agents (generator and validator)
 - fine-tuned LoRA adapter
 - RAG search/update
-- health-check
+- deep health-check
 - pydantic validation
 - local logging
 - endpoints autotests
